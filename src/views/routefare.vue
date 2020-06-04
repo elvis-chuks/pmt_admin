@@ -1,13 +1,18 @@
 <template>
     <div>
         <main>
-            <Sidebar/>
+            <Sidebar v-if="JSON.parse(this.getCookie('pmt_admin')).role == 1"/>
+            <DepotSidebar v-else/>
+            <!-- {{JSON.parse(this.getCookie('pmt_admin'))}} -->
             <section class="main-stuff">
                 <Nav class="navy" :location="{page:'Dashboard',parent:'Home > Routes',child:'Route Fare'}" />
                 <div class="all-content">
                     <h1 class="top">Update Route Fare</h1>
                     <div class="form">
-                        <select name="depot"  class="form-control" id="depot" @change="getZroute()">
+                        <select v-show="JSON.parse(this.getCookie('pmt_admin')).role = 0" class="form-control" id="depot" @change="getZroute()">
+                            <option selected :value="depotDetails.depotcode">{{ depotDetails.depotname }}</option>
+                        </select>
+                        <select v-show="JSON.parse(this.getCookie('pmt_admin')).role == 1" name="depot"  class="form-control" id="depot" @change="getZroute()">
                             <option selected disabled>Select depot</option>
                             <option
                                 v-for="depot in depots"
@@ -51,12 +56,14 @@
 
 <script>
 import Sidebar from '@/components/sidebar.vue'
+import DepotSidebar from '@/components/depotsidebar.vue'
 import Nav from '@/components/nav.vue'
 import Loader from '@/components/loader.vue'
 export default {
     name:'RouteFare',
     components:{
         Sidebar,
+        DepotSidebar,
         Nav,
         Loader,
     },
@@ -64,6 +71,14 @@ export default {
         if(!this.checkCookie('pmt_admin')){
             this.$router.push({name:'Login'})
         }else{
+            console.log(this.getCookie('pmt_admin'),JSON.parse(this.getCookie('pmt_admin')))
+            this.details = JSON.parse(this.getCookie('pmt_admin'))
+            // this.details is unnecessary
+            this.depotDetails = JSON.parse(this.getCookie('pmt_admin_details'))
+            console.log(this.details)
+            if(JSON.parse(this.getCookie('pmt_admin')).role == 0){
+                this.getZroute();
+            }
             this.getDepots();
         }
     },
@@ -79,6 +94,8 @@ export default {
             remark:"",
             status:"",
             check:false,
+            details:{},
+            depotDetails:{},
         }
     },
     methods:{
@@ -102,8 +119,11 @@ export default {
             this.loading = true;
 
             var selected = document.getElementById("depot").value;
+            
+            if(selected.length == 0){
+                selected = this.depotDetails.depotcode;
+            }
             console.log(selected)
-
             fetch(this.baseUrl+'/v2/zroute',{
                 headers:{
                 depotCode:selected,

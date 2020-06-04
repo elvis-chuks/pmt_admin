@@ -11,6 +11,7 @@ import Profile from '../views/profile.vue'
 import CreateStaff from '../views/createstaff'
 import UpdateStaff from '../views/updatestaff'
 import DeleteStaff from '../views/deletestaff'
+import DepotDashboard from '../views/depotdashboard'
 
 Vue.use(VueRouter)
 
@@ -69,6 +70,11 @@ Vue.use(VueRouter)
     path: '/profile',
     name: 'Profile',
     component: Profile
+  },
+  {
+    path: '/depotdashboard',
+    name: 'DepotDashboard',
+    component: DepotDashboard
   }
 ]
 

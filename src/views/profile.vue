@@ -1,7 +1,8 @@
 <template>
     <div>
         <main>
-            <Sidebar/>
+            <Sidebar v-if="details.role == '1'"/>
+            <DepotSidebar v-else/>
             <section class="main-stuff">
                 <Nav class="navy" :location="{page:'Dashboard',parent:'Home > Routes',child:'New Route'}" />
                 <div class="all-content">
@@ -28,12 +29,14 @@
 
 <script>
 import Sidebar from '@/components/sidebar.vue'
+import DepotSidebar from '@/components/depotsidebar.vue'
 import Nav from '@/components/nav.vue'
 import Loader from '@/components/loader.vue'
 export default {
     name:'Profile',
     components:{
         Sidebar,
+        DepotSidebar,
         Nav,
         Loader
     },
@@ -45,12 +48,14 @@ export default {
             check:false,
             remark:"",
             baseUrl:this.$store.getters.getBaseUrl,
+            details:{},
         }
     },
     mounted(){
         if(!this.checkCookie('pmt_admin')){
             this.$router.push({name:'Login'})
         }else{
+            this.details = JSON.parse(this.getCookie('pmt_admin'))
             this.getDetails()
         }
         

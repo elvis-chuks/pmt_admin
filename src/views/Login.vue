@@ -66,6 +66,9 @@ export default {
           this.setCookie('pmt_admin',JSON.stringify(data.data),30)
           this.getDepotname(data.data.depotid);
           switch(data.data.role){
+            case '0':
+              this.$router.push({name:'DepotDashboard'})
+              break
             case '1':
               this.$router.push({name:'Dashboard'})
               break

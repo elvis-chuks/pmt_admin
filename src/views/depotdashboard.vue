@@ -1,7 +1,7 @@
 <template>
     <div>
         <main>
-            <Sidebar/>
+            <DepotSidebar/>
             <section class="main-stuff">
                 <Nav class="navy" :location="{page:'Dashboard',parent:'Home',child:'Dashboard'}" />
                 <div class="all-content">
@@ -63,19 +63,18 @@
             </section>
             
         </main>
-        
     </div>
 </template>
 
 <script>
-import Sidebar from '@/components/sidebar.vue'
+import DepotSidebar from '@/components/depotsidebar.vue'
 import Nav from '@/components/nav.vue'
 import Datatable from '@/components/datatable.vue'
 import Loader from '@/components/loader.vue'
 export default {
-    name:'Dashboard',
+    name:"DepotDashboard",
     components:{
-        Sidebar,
+        DepotSidebar,
         Nav,
         Datatable,
         Loader,
@@ -94,21 +93,25 @@ export default {
             failedBKey:1,
         }
     },
+    created(){
+        if(!this.checkCookie('pmt_admin')){
+         this.$router.push({name:'Login'})   
+        }
+        if(this.checkCookie('pmt_admin')){
+            if(JSON.parse(this.getCookie('pmt_admin')).role != 0){
+                if(JSON.parse(this.getCookie('pmt_admin')).role == 1){
+                    this.$router.push({name:'Dashboard'})
+                }else{
+                    this.$router.push({name:'Login'})
+                }
+                
+            }
+        }
+    },
     mounted(){
         this.getPassengers()
         this.startDate = this.getdate[1]
         this.endDate = this.getdate[0]
-    },
-    created(){
-        if(!this.checkCookie('pmt_admin')){
-            this.$router.push({name:'Login'})  
-            // return  
-        }else{
-            // console.log(JSON.parse(this.getCookie('pmt_admin')))
-            if(JSON.parse(this.getCookie('pmt_admin')).role != 1){
-                this.$router.push({name:'DepotDashboard'})
-            }
-        }
     },
     methods:{
         showTable(){
@@ -122,10 +125,11 @@ export default {
         },
         getPassengers(){
             this.loading = true;
-            fetch(this.baseUrl+'/v3/getbookingall',{
+            fetch(this.baseUrl+'/v3/getbooking',{
                 headers:{
                     startDate : this.startDate,
                     endDate : this.endDate,
+                    depotName : JSON.parse(this.getCookie('pmt_admin_details')).depotname,
                 }
             })
             .then(resp => resp.json())
@@ -192,6 +196,7 @@ export default {
             return [year + '-' + month + '-' + day,year + '-' + month + '-' + newDay]
         },
     }
+    
 }
 </script>
 <style scoped>
