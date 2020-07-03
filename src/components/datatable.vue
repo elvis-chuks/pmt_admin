@@ -53,21 +53,21 @@ export default {
                 
             ],
             columns:[
-                {
-                    label: 'Title',
-                    field: 'title',
-                    sort: 'asc'
-                },
+                // {
+                //     label: 'Title',
+                //     field: 'title',
+                //     sort: 'asc'
+                // },
                 {
                     label: 'Name',
                     field: 'fullname',
                     sort: 'asc'
                 },
-                {
-                    label: 'Gender',
-                    field: 'Gender',
-                    sort: 'asc'
-                },
+                // {
+                //     label: 'Gender',
+                //     field: 'Gender',
+                //     sort: 'asc'
+                // },
                 {
                     label: 'Number',
                     field: 'number',

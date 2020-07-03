@@ -9,10 +9,10 @@
                 <div class="all-content">
                     <h1 class="top">Update Route Fare</h1>
                     <div class="form">
-                        <select v-show="JSON.parse(this.getCookie('pmt_admin')).role = 0" class="form-control" id="depot" @change="getZroute()">
+                        <select v-show="JSON.parse(this.getCookie('pmt_admin')).role = 0" class="form-control" id="depot" @change="getZroute()" v-model="selected">
                             <option selected :value="depotDetails.depotcode">{{ depotDetails.depotname }}</option>
                         </select>
-                        <select v-show="JSON.parse(this.getCookie('pmt_admin')).role == 1" name="depot"  class="form-control" id="depot" @change="getZroute()">
+                        <select v-show="JSON.parse(this.getCookie('pmt_admin')).role == 1" name="depot"  class="form-control" id="depot" @change="getZroute()" v-model="selected">
                             <option selected disabled>Select depot</option>
                             <option
                                 v-for="depot in depots"
@@ -96,6 +96,7 @@ export default {
             check:false,
             details:{},
             depotDetails:{},
+            selected:""
         }
     },
     methods:{
@@ -119,15 +120,15 @@ export default {
             this.loading = true;
 
             var selected = document.getElementById("depot").value;
-            
+            console.log(selected,"selected")
             if(selected.length == 0){
                 selected = this.depotDetails.depotcode;
             }
-            console.log(selected)
+            console.log(this.selected,"selected")
             fetch(this.baseUrl+'/v2/zroute',{
                 headers:{
-                depotCode:selected,
-                depotName:selected,
+                depotCode:this.selected,
+                depotName:this.selected,
                 }
             })
             .then(response => response.json())
