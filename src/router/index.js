@@ -4,6 +4,7 @@ import Login from '../views/Login.vue'
 import Dashboard from '../views/dashboard.vue'
 import NewRoute from '../views/newroute.vue'
 import DeleteRoute from '../views/deleteroute.vue'
+import CreateDepot from '../views/createdepot.vue'
 import RouteFare from '../views/routefare.vue'
 import FareAdjust from '../views/fareadjust.vue'
 import Settings from '../views/settings.vue'
@@ -75,6 +76,11 @@ Vue.use(VueRouter)
     path: '/depotdashboard',
     name: 'DepotDashboard',
     component: DepotDashboard
+  },
+  {
+    path: '/createdepot',
+    name: 'CreateDepot',
+    component: CreateDepot
   }
 ]
 

@@ -18,6 +18,7 @@
                 <div class="submenu-routes" v-show="routeMenu">
                   <router-link tag="a" :to="{name:'NewRoute'}"><i class="fa fa-plus-circle"></i>Create Route</router-link>  
                   <router-link tag="a" :to="{name:'DeleteRoute'}"><i class="fa fa-minus-circle"></i>Delete Route</router-link>  
+                  <router-link tag="a" :to="{name:'CreateDepot'}"><i class="fa fa-plus-circle"></i>Create Depot</router-link>  
                   <router-link tag="a" :to="{name:'RouteFare'}"><i class="fa fa-money-bill-wave"></i>Route Fare</router-link>  
                   <router-link tag="a" :to="{name:'FareAdjust'}"><i class="fa fa-money-check"></i>Fare Adjustment</router-link>  
                    
